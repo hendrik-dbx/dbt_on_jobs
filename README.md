@@ -44,16 +44,16 @@ that notebook's header for the full findings and next steps.
 
 ## Deploy & run
 
-Authenticate to the workspace first (profile `e2` →
-`https://e2-demo-field-eng.cloud.databricks.com`):
+Authenticate with your CLI profile first (the workspace host comes from the
+profile — the bundle doesn't hardcode one):
 
 ```bash
-databricks auth login --profile e2
+databricks auth login --profile <profile>
 
-databricks bundle validate -p e2
-databricks bundle deploy   -p e2                 # deploys files + creates the Jobs
-databricks bundle run dbt_on_jobs_job -p e2      # classic: seed → run → test  ✅
-databricks bundle run dbt_on_serverless_job -p e2  # serverless: WIP
+databricks bundle validate -p <profile>
+databricks bundle deploy   -p <profile>                 # deploys files + creates the Jobs
+databricks bundle run dbt_on_jobs_job -p <profile>      # classic: seed → run → test  ✅
+databricks bundle run dbt_on_serverless_job -p <profile>  # serverless: WIP
 ```
 
 ## Local layout

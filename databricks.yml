@@ -2,17 +2,16 @@
 # a Job that runs it on *jobs compute* (a job cluster) via dbt-spark's session
 # method. No SQL warehouse is used anywhere.
 #
-#   databricks bundle validate -p e2
-#   databricks bundle deploy   -p e2
-#   databricks bundle run dbt_on_jobs_job -p e2
+# The workspace host comes from the CLI profile you pass at deploy time, e.g.:
+#   databricks bundle validate -p <profile>
+#   databricks bundle deploy   -p <profile>
+#   databricks bundle run dbt_on_jobs_job -p <profile>
 bundle:
   name: dbt_on_jobs
 
 targets:
-  e2:
+  dev:
     default: true
-    workspace:
-      host: https://e2-demo-field-eng.cloud.databricks.com
 
 resources:
   jobs:
