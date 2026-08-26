@@ -1,0 +1,35 @@
+version: 2
+
+# NOTE: tests are limited to `unique` / `not_null` so the same YAML validates on
+# BOTH engines this project targets: Python dbt-spark 1.8 (classic job cluster,
+# `session`) and dbt Fusion (serverless, `spark-connect`). Fusion rejects the
+# classic top-level args on `accepted_values`/`relationships` (error dbt1159,
+# requiring the newer nested `arguments:` form), which dbt-spark 1.8 in turn
+# doesn't understand — so those arg-taking tests are omitted here.
+models:
+  - name: silver_customers
+    description: "Conformed customer dimension (cleaned, typed)."
+    columns:
+      - name: customer_id
+        description: "Primary key."
+        data_tests: [unique, not_null]
+
+  - name: silver_accounts
+    description: "Conformed account dimension."
+    columns:
+      - name: account_id
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: customer_id
+        description: "FK to silver_customers."
+        data_tests: [not_null]
+
+  - name: silver_transactions
+    description: "Conformed transaction fact."
+    columns:
+      - name: transaction_id
+        description: "Primary key."
+        data_tests: [unique, not_null]
+      - name: account_id
+        description: "FK to silver_accounts."
+        data_tests: [not_null]

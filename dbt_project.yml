@@ -1,0 +1,34 @@
+name: 'dbt_on_jobs'
+version: '1.0.0'
+config-version: 2
+
+# This profile is defined in profiles.yml (shipped in this repo) and uses the
+# dbt-spark "session" adapter so the project runs on Databricks *jobs compute*
+# (the job cluster's live SparkSession) — no SQL warehouse involved.
+profile: 'dbt_on_jobs'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Silver = cleaned/conformed; Gold = business-level warehouse aggregations.
+# Everything materializes as managed Delta tables in the configured UC catalog.
+models:
+  dbt_on_jobs:
+    +file_format: delta
+    silver:
+      +materialized: table
+      +schema: silver
+    gold:
+      +materialized: table
+      +schema: gold
+
+seeds:
+  dbt_on_jobs:
+    +schema: bronze
+    +file_format: delta

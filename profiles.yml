@@ -1,0 +1,30 @@
+# dbt-spark "session" profile — runs against the live SparkSession on the
+# Databricks *job cluster* (jobs compute). No SQL warehouse / Thrift server.
+#
+# Requires `dbt-spark[session]` installed on the cluster (see resources/databricks.yml).
+# Unity Catalog three-level namespace is addressed via `catalog` + `schema`.
+dbt_on_jobs:
+  target: databricks_jobs
+  outputs:
+    # Classic job cluster: reuse the cluster's JVM SparkSession in-process.
+    databricks_jobs:
+      type: spark
+      method: session
+      # NOTE: dbt-spark's session method ignores `catalog` (it emits unqualified
+      # schema.table). The Unity Catalog catalog (hendrik_fsi) is selected via
+      # `USE CATALOG` in notebooks/run_dbt.py before dbt runs.
+      schema: dbt_on_jobs         # default schema; silver/gold models override via +schema
+      host: localhost             # unused by the session method, but required by the schema
+      threads: 4
+
+    # Serverless compute: also the session method, but run out-of-process with
+    # the pip-installed Python dbt-spark (see notebooks/run_dbt.py). pyspark's
+    # getOrCreate() picks up the serverless Spark Connect endpoint from the
+    # SPARK_REMOTE env var (a unix socket). Catalog is selected via the
+    # on-run-start hook in dbt_project.yml (the session method ignores `catalog`).
+    databricks_serverless:
+      type: spark
+      method: session
+      schema: dbt_on_jobs         # default schema; silver/gold models override via +schema
+      host: localhost             # unused by the session method, but required by the schema
+      threads: 4

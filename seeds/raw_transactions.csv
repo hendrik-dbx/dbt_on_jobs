@@ -1,0 +1,25 @@
+transaction_id,account_id,txn_ts,amount,currency,category,merchant
+9001,1001,2024-01-05 08:31:00,-42.50,GBP,groceries,Tesco
+9002,1001,2024-01-05 12:10:00,-3.20,GBP,transport,TfL
+9003,1001,2024-01-06 19:45:00,-58.00,GBP,dining,Dishoom
+9004,1002,2024-01-07 09:00:00,500.00,GBP,transfer,Internal
+9005,1003,2024-01-05 14:22:00,-120.00,GBP,shopping,Amazon
+9006,1003,2024-01-08 11:05:00,-15.75,GBP,groceries,Sainsburys
+9007,1004,2024-01-05 16:40:00,2500.00,USD,transfer,Payroll
+9008,1004,2024-01-09 10:15:00,-300.00,USD,shopping,BestBuy
+9009,1005,2024-01-06 08:00:00,-22.00,USD,dining,Starbucks
+9010,1005,2024-01-10 13:30:00,-90.40,USD,groceries,WholeFoods
+9011,1006,2024-01-05 07:50:00,-1000.00,EUR,investment,Broker
+9012,1006,2024-01-11 15:20:00,250.00,EUR,dividend,Broker
+9013,1007,2024-01-07 18:10:00,-64.30,USD,dining,Chipotle
+9014,1007,2024-01-12 09:45:00,3200.00,USD,transfer,Payroll
+9015,1008,2024-01-06 10:30:00,-5000.00,EUR,invoice,SupplierCo
+9016,1008,2024-01-13 14:00:00,12000.00,EUR,revenue,ClientCorp
+9017,1010,2024-01-08 12:00:00,-45.00,USD,transport,Uber
+9018,1010,2024-01-14 20:15:00,-210.00,USD,shopping,Nike
+9019,1001,2024-02-02 08:31:00,-40.00,GBP,groceries,Tesco
+9020,1004,2024-02-05 16:40:00,2500.00,USD,transfer,Payroll
+9021,1005,2024-02-06 08:00:00,-25.00,USD,dining,Starbucks
+9022,1007,2024-02-12 09:45:00,3200.00,USD,transfer,Payroll
+9023,1008,2024-02-13 14:00:00,9500.00,EUR,revenue,ClientCorp
+9024,1003,2024-02-08 11:05:00,-30.00,GBP,groceries,Sainsburys

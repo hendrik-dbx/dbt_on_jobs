@@ -1,0 +1,11 @@
+account_id,customer_id,account_type,currency,opened_date,status
+1001,1,checking,GBP,2021-03-15,active
+1002,1,savings,GBP,2021-04-01,active
+1003,2,checking,GBP,2020-06-24,active
+1004,3,investment,USD,2019-12-10,active
+1005,4,checking,USD,2022-02-01,active
+1006,5,investment,EUR,2021-08-12,active
+1007,6,checking,USD,2023-02-19,active
+1008,7,business,EUR,2020-11-06,active
+1009,8,investment,USD,2018-07-22,closed
+1010,3,savings,USD,2020-01-15,active

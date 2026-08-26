@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: gold_daily_account_summary
+    description: "Daily transaction aggregation per account (core warehouse fact)."
+    columns:
+      - name: account_id
+        data_tests: [not_null]
+      - name: txn_date
+        data_tests: [not_null]
+      - name: txn_count
+        data_tests: [not_null]
+
+  - name: gold_customer_monthly_summary
+    description: "Customer x month rollup for BI/reporting."
+    columns:
+      - name: customer_id
+        data_tests: [not_null]
+      - name: month
+        data_tests: [not_null]
+
+  - name: gold_category_spend
+    description: "Spend by customer segment and transaction category (debits only)."
+    columns:
+      - name: total_spend
+        data_tests: [not_null]

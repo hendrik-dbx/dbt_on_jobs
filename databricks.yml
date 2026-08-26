@@ -1,0 +1,69 @@
+# Databricks Asset Bundle: deploys the dbt project to the workspace and defines
+# a Job that runs it on *jobs compute* (a job cluster) via dbt-spark's session
+# method. No SQL warehouse is used anywhere.
+#
+#   databricks bundle validate -p e2
+#   databricks bundle deploy   -p e2
+#   databricks bundle run dbt_on_jobs_job -p e2
+bundle:
+  name: dbt_on_jobs
+
+targets:
+  e2:
+    default: true
+    workspace:
+      host: https://e2-demo-field-eng.cloud.databricks.com
+
+resources:
+  jobs:
+    dbt_on_jobs_job:
+      name: dbt_on_jobs — silver & gold (dbt-spark on jobs compute)
+      tasks:
+        - task_key: dbt_build
+          # A notebook task (NOT the native dbt task) runs dbt in-process via
+          # dbtRunner, so dbt-spark's `session` method reuses the job cluster's
+          # live SparkSession. The native dbt task shells out to a subprocess
+          # with no SparkSession and fails session mode with MASTER_URL_NOT_SET.
+          notebook_task:
+            notebook_path: ./notebooks/run_dbt.py
+            base_parameters:
+              project_dir: ${workspace.file_path}
+              catalog: hendrik_fsi
+          # Jobs compute: an ephemeral single-node job cluster (not a warehouse).
+          new_cluster:
+            spark_version: 16.4.x-scala2.12
+            node_type_id: m5d.large
+            num_workers: 0
+            data_security_mode: SINGLE_USER
+            spark_conf:
+              spark.databricks.cluster.profile: singleNode
+              spark.master: "local[*, 4]"
+            custom_tags:
+              ResourceClass: SingleNode
+          libraries:
+            # dbt-spark[session] provides the session connection method.
+            - pypi:
+                package: "dbt-spark[session]>=1.8,<1.9"
+
+    # Second job: the same dbt project on SERVERLESS compute. WORK IN PROGRESS —
+    # uses a separate notebook (run_dbt_serverless.py) that carries the serverless
+    # workarounds, so the classic notebook stays clean. See that notebook's header
+    # for the open issues. Still no SQL warehouse.
+    dbt_on_serverless_job:
+      name: dbt_on_jobs — silver & gold (dbt-spark on SERVERLESS compute) [WIP]
+      tasks:
+        - task_key: dbt_build
+          notebook_task:
+            notebook_path: ./notebooks/run_dbt_serverless.py
+            base_parameters:
+              project_dir: ${workspace.file_path}
+              catalog: hendrik_fsi
+          environment_key: dbt_env
+      environments:
+        - environment_key: dbt_env
+          spec:
+            client: "2"
+            dependencies:
+              # The notebook pip-installs real Python dbt-spark at runtime; this
+              # env just needs to exist for a serverless notebook task.
+              - "dbt-spark>=1.8,<1.9"

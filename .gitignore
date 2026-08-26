@@ -1,0 +1,14 @@
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Databricks Asset Bundles
+.databricks/
+
+# Python / OS
+__pycache__/
+*.pyc
+.DS_Store
+.env
